@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>员工工资统计</title>
+  </head>
+  <link rel="stylesheet" href="./css/public.css">
+  <link rel="stylesheet" href="./css/check.css">
+  <link rel="stylesheet" href="./package/bootstrap/css/bootstrap.min.css">
+  <script type="text/javascript" src="./package/jq.js"></script>
+  <script type="text/javascript" src="./package/bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="./package/angular.min.js"></script>
+  <body>
+    <div class="header">
+      <div class="left">
+        <p id="page1" onclick="toP1()">员工工资统计</p>&nbsp;&nbsp;
+        <span>/</span>&nbsp;&nbsp;
+        <p id="page2" onclick="toP2()">员工考勤加班管理</p>&nbsp;&nbsp;
+        <span>/</span>&nbsp;&nbsp;
+        <p id="page3">工种工资设定</p>
+        <!-- 弹窗解决 -->
+      </div>
+      <div class="right">
+        <p>工资管理系统</p>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="contentHeader">
+        <select id="yearSelect" class="form-control">
+        </select>
+        <select id="monthSelect" class="form-control">
+        </select>
+        <div id="changeDate">
+          更改日期
+        </div>
+      </div>
+
+      <div id="tableBox" style="overflow:auto">
+        <table id="calender" class="table table-bordered" >
+          <thead>
+            <tr>
+              <th>周一</th>
+              <th>周二</th>
+              <th>周三</th>
+              <th>周四</th>
+              <th>周五</th>
+              <th>周六</th>
+              <th>周日</th>
+            </tr>
+          </thead>
+          <tbody id="addContent">
+
+          </tbody>
+        </table>
+      </div>
+
+      <div id="recordButton" class="contentBottom">
+        提交管理记录
+      </div>
+    </div>
+
+
+
+      <!-- 设定加班和考勤模态框（Modal） -->
+    <div class="modal fade" id="workStatusModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title" id="workStatusModelHead"></h4>
+              </div>
+              <div class="modal-body">
+                <div class="setWorkStatusContent">
+                  <div class="checkbox">
+                      <label class="checkbox-inline">
+                        <input id="late" name="late" type="checkbox">
+                        <span>缺勤</span>
+                      </label>
+                      <label class="checkbox-inline">
+                        <input id="overwork" name="overwork" type="checkbox">
+                        <span>加班</span>
+                      </label>
+                  </div>
+                  <div id="overWorkSet" class="form-group">
+                    加班类型
+                    <select id="overworkKind" class="form-control">
+                      <option>工作日</option>
+                      <option>休息日</option>
+                    </select>
+                    时长
+                    <select id="overworkTime" class="form-control">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                      <option>6</option>
+                      <option>7</option>
+                      <option>8</option>
+                      <option>9</option>
+                      <option>10</option>
+                    </select>
+                    小时;&nbsp;&nbsp;&nbsp;每小时补贴
+                    <input id="overworkMoney" type="text" class="form-control" placeholder="请输入整数">元
+                  </div>
+
+                </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                  <button id="addWorkStatus" type="button" class="btn btn-primary">提交当天记录</button>
+              </div>
+          </div><!-- /.modal-content -->
+      </div><!-- /.modal -->
+    </div>
+
+    <!-- 设定工种工资模态框（Modal） -->
+  <div class="modal fade" id="workKindModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">工种基本月工资设定</h4>
+            </div>
+            <div class="modal-body">
+              <div class="workKindModelContent">
+                <div  class="form-group">
+                  工种
+                  <select id="workKind" class="form-control">
+                    <option>php开发</option>
+                    <option>软件营销</option>
+                    <option>node开发</option>
+                    <option>系统管理员</option>
+                    <option>运维工程师</option>
+                  </select>
+                  &nbsp;&nbsp;工资:
+                   <input type="text" class="form-control" id="baseMoney" placeholder="请输入正整数">
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button id="setWorkKindButton" type="button" class="btn btn-primary">提交基本月工资设定</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+  </div>
+
+  <!-- 询问ID模态框（Modal） -->
+  <div class="modal fade" data-backdrop="false" id="idModal" tabindex="-1" data-keyboard="false"
+          role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">请先填写记录的员工ID</h4>
+            </div>
+            <div class="modal-body">
+                  <input type="text" class="form-control" id="idInput" placeholder="请输入员工ID">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="upIdButtom">提交ID</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+  </div>
+  </body>
+  <script type="text/javascript" src="./js/public.js"></script>
+  <script type="text/javascript" src="./js/check.js"></script>
+</html>

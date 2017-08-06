@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>员工工资统计</title>
+  </head>
+  <link rel="stylesheet" href="./css/public.css">
+  <link rel="stylesheet" href="./css/index.css">
+  <link rel="stylesheet" href="./package/bootstrap/css/bootstrap.min.css">
+  <script type="text/javascript" src="./package/jq.js"></script>
+  <script type="text/javascript" src="./package/bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="./package/angular.min.js"></script>
+  <body>
+    <div class="header">
+      <div class="left">
+        <p id="page1" onclick="toP1()">员工工资统计</p>&nbsp;&nbsp;
+        <span>/</span>&nbsp;&nbsp;
+        <p id="page2" onclick="toP2()">员工考勤加班管理</p>&nbsp;&nbsp;
+        <span>/</span>&nbsp;&nbsp;
+        <p id="page3" onclick="setWorkKind()">工种工资设定</p>
+        <!-- 弹窗解决 -->
+      </div>
+      <div class="right">
+        <p>工资管理系统</p>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="department">
+        <div class="department1">
+          管理层
+        </div>
+
+        <div id="develop" onclick="showDepartment(this)" class="department2">
+          开发部
+        </div>
+        <div id="operation" onclick="showDepartment(this)" class="department2">
+          运维部
+        </div>
+        <div id="market" onclick="showDepartment(this)" class="department2 ">
+          市场部
+        </div>
+        <div class="searchOne">
+           <input type="text" class="form-control" id="searchId" placeholder="请输入想查询的员工ID号">
+           <button id="searchOneButton"  class="btn btn-info btn-sm">
+            <span class="glyphicon glyphicon-search"></span> Search
+          </button>
+        </div>
+      </div>
+
+      <div class="tableBox" style="overflow-y:auto;">
+        <table class="table table-striped" >
+          <caption id = "departmentName"></caption>
+          <thead>
+            <tr>
+              <th>姓名</th>
+              <th>员工ID</th>
+              <th>工种</th>
+              <th>上月工资</th>
+              <th>上年年终奖</th>
+            </tr>
+          </thead>
+          <tbody id="departmentBody">
+            <!-- <tr>
+              <td>Tanmay</td>
+              <td>2015</td>
+              <td>开发部</td>
+              <td>18000</td>
+              <td>20000</td>
+            </tr> -->
+          </tbody>
+        </table>
+    </div>
+
+    <!-- 部门详细  可能舍弃-->
+    <div class="modal fade" id="departmentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    	<div class="modal-dialog">
+    		<div class="modal-content">
+    			<div class="modal-header">
+    				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+    					&times;
+    				</button>
+    				<h4 class="modal-title">
+    					***部门工资详情
+    				</h4>
+    			</div>
+    			<div class="modal-body">
+            <div class="tableBox" style="overflow-y:auto;">
+              <table class="table table-striped" >
+                <caption>**部</caption>
+                <thead>
+                  <tr>
+                    <th>部门</th>
+                    <th>工种</th>
+                    <th>基本工资</th>
+                    <th>月份</th>
+                    <th>工资统计</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>开发部</td>
+                    <td>18000</td>
+                    <td>20000</td>
+                  </tr>
+                  <tr>
+                    <td>开发部</td>
+                    <td>18000</td>
+                    <td>20000</td>
+                  </tr>
+                  <tr>
+                    <td>开发部</td>
+                    <td>18000</td>
+                    <td>20000</td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+    			</div>
+    			<div class="modal-footer">
+    				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+    				</button>
+    			</div>
+    		</div><!-- /.modal-content -->
+    	</div><!-- /.modal -->
+    </div>
+
+    <!-- 员工详细 -->
+    <div class="modal fade" id="employeeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              &times;
+            </button>
+            <h4 class="modal-title" >
+              员工工资详情
+            </h4>
+          </div>
+          <div class="modal-body">
+            <div style="overflow-y:auto;">
+              <table class="table table-striped" >
+                <!-- <caption>***员工</caption> -->
+                <thead>
+                  <tr>
+                    <th>姓名</th>
+                    <th>工种</th>
+                    <th>部门</th>
+                    <th>月工资</th>
+                    <th>日期</th>
+                    <!-- <th>缺勤天数</th>
+                    <th>加班天数</th> -->
+                  </tr>
+                </thead>
+                <tbody id="IDtbody">
+                  <!-- <tr>
+                    <td>node开发</td>
+                    <td>18000</td>
+                    <td>2017-08</td>
+                  </tr> -->
+                </tbody>
+              </table>
+          </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 设定工种工资模态框（Modal） -->
+  <div class="modal fade" id="workKindModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">工种基本月工资设定</h4>
+            </div>
+            <div class="modal-body">
+              <div class="workKindModelContent">
+                <div  class="form-group">
+                  工种
+                  <select id="workKind" class="form-control">
+                    <option>php开发</option>
+                    <option>软件营销</option>
+                    <option>node开发</option>
+                    <option>系统管理员</option>
+                    <option>运维工程师</option>
+                  </select>
+                  &nbsp;&nbsp;工资:
+                   <input type="text" class="form-control" id="baseMoney" placeholder="请输入正整数">
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button id="setWorkKindButton" type="button" class="btn btn-primary" onclick="setWorkKindSubmit()">提交基本月工资设定</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+  </div>
+  </body>
+  <script type="text/javascript" src="./js/public.js"></script>
+  <script type="text/javascript" src="./js/index.js"></script>
+</html>

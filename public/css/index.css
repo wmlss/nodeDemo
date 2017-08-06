@@ -1,0 +1,121 @@
+body {
+  background-image: url(../image/b3.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.content {
+  position: relative;
+  margin: auto;
+  margin-top: 5px;
+  /*border:1px black solid;*/
+  width: 900px;
+
+}
+
+.department {
+  position: relative;
+  margin: auto;
+  /*border:1px black solid;*/
+  height: 270px;
+  width: 700px;
+  /*border-radius: 6px;*/
+
+}
+
+.department .department1 {
+  margin: auto;
+  margin-top: 10px;
+  width:120px;
+  height: 115px;
+  border-radius: 100%;
+  text-align: center;
+  line-height: 115px;
+  background-color: #e33f3f;
+  color: white;
+  font-size: 22px;
+
+}
+
+ .department .department2:hover{
+  cursor: pointer;
+  font-size: 25px;
+}
+
+.department .department2 {
+  margin-top: 20px;
+  display: inline-block;
+  width:120px;
+  height: 50px;
+  border-radius: 13px;
+  text-align: center;
+  line-height: 50px;
+  background-color: #cf4646;
+  color: white;
+  font-size: 23px;
+
+}
+
+#develop {
+  position: relative;
+  left: 110px;
+  bottom: 40px;
+  background-color: #4fa8a8;
+
+}
+
+#operation {
+  position: relative;
+  top: 25px;
+  left: 166px;
+  background-color: #31b431;
+
+}
+
+#market {
+  position: relative;
+  left: 240px;
+  bottom: 40px;
+  background-color: #F80;
+
+}
+
+.searchOne {
+  position: absolute;
+  left: 190px;
+  bottom: 2px;
+  height: 40px;
+  width: 50%;
+  /*border: 1px solid black;*/
+
+}
+
+#id {
+  opacity: 0.9;
+  width: 250px;
+  margin-top: 6px;
+
+}
+
+#searchOneButton {
+  margin-bottom: 5px;
+
+}
+
+.tableBox {
+  position: absolute;
+  left: 50px;
+  opacity: 0.92;
+  background-color: white;
+  margin: auto;
+  margin-top: 5px;
+  width: 90%;
+  height: 280px;
+  border-radius: 3px;
+  border: 2px #AAA solid;
+  font-size: 16px;
+}
+
+/*#employeeModal {
+  height: 350px;
+}*/
